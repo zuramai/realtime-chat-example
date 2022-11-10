@@ -25,6 +25,8 @@ body {
   background-color: rgba(255, 255, 255, 0.212);
   backdrop-filter: blur(3px);
   box-shadow: 3px 0px 30px rgba(48, 43, 43, 0.219);
+  display: flex;
+  justify-content: space-between;
 }
 .messagebox {
   position: absolute;
@@ -32,14 +34,58 @@ body {
   background-color: white;
   width: 100%;
   display: flex;
+  padding: 1rem;
+}
+.message-input:focus {
+  outline: none;
+  border-color: rgb(145, 145, 145);
+
 }
 .message-input {
   flex-grow: 1;
   padding: 1rem;
   border: none;
+  border: 1px solid rgb(199, 198, 198);
+  border-radius: 50rem;
 }
-.messagebox button {
-  padding: .3rem 1rem;
-  border: 1px solid #ccc;
-  background-color: #cbdeec;
+.messages {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: flex-end;
+  padding: 4rem 0;
+}
+.message {
+  min-width: 100px;
+  max-width: 300px;
+  padding: .7rem;
+  border-radius: 1rem;
+}
+.message-wrapper {
+  display: flex;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.message-wrapper.me {
+  justify-content: flex-end;
+}
+.message-wrapper:not(.me) .message {
+  border-bottom-left-radius: 0;
+}
+.message-wrapper .message {
+  background-color: #f6f8fc;
+  margin-left: 1rem;
+  justify-self: flex-start;
+}
+.message-wrapper.me .message {
+  background-color: #577af3;
+  color: white;
+  margin-right: 1rem;
+  border-bottom-right-radius: 0;
+}
+.message .name {
+  font-weight: 700;
+  margin-bottom: .3rem;
+  opacity: .8;
+  font-size: .9rem;
 }
