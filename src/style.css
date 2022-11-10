@@ -4,6 +4,9 @@
   box-sizing: border-box;
   font-family: 'Noto Sans';
 }
+body {
+  background-color: rgb(15, 15, 17);
+}
 .chat {
   width: 450px;
   height: 100vh;
@@ -22,4 +25,21 @@
   background-color: rgba(255, 255, 255, 0.212);
   backdrop-filter: blur(3px);
   box-shadow: 3px 0px 30px rgba(48, 43, 43, 0.219);
+}
+.messagebox {
+  position: absolute;
+  bottom: 0;
+  background-color: white;
+  width: 100%;
+  display: flex;
+}
+.message-input {
+  flex-grow: 1;
+  padding: 1rem;
+  border: none;
+}
+.messagebox button {
+  padding: .3rem 1rem;
+  border: 1px solid #ccc;
+  background-color: #cbdeec;
 }
