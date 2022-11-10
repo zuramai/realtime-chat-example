@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans';
+}
+.chat {
+  width: 450px;
+  height: 100vh;
+  margin: 0 auto;
+  background: url(bg.jpg);
+  background-size: contain;
+  overflow: hidden;
+  position: relative;
+}
+.chat-heading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.212);
+  backdrop-filter: blur(3px);
+  box-shadow: 3px 0px 30px rgba(48, 43, 43, 0.219);
+}
