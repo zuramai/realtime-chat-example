@@ -56,8 +56,9 @@ func handleIO(currentConn *WebsocketConnection, connections []*WebsocketConnecti
 			log.Println("ERROR", fmt.Sprintf("%v", r))
 		}
 	}()
+	fmt.Println("New user connected:" + currentConn.Username)
 
-	broadcastMessage(currentConn, MESSAGE_NEW_USER, "")
+	broadcastMessage(currentConn, MESSAGE_NEW_USER, "New user:")
 
 	for {
 		payload := SocketPayload{}
