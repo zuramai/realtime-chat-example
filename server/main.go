@@ -30,6 +30,26 @@ type WebsocketConnection struct {
 
 var connections = make([]*WebsocketConnection, 0)
 
+func main() {
+	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+
+		// New connection request
+		currentGorillaConn, err := websocket.Upgrade(w, r, w.Header(), 1024, 1024)
+		if err != nil {
+			http.Error(w, "Could not open websocket connection", http.StatusBadRequest)
+		}
+
+		username := r.URL.Query().Get("username")
+		currentConn := WebsocketConnection{Conn: currentGorillaConn, Username: username}
+		connections = append(connections, &currentConn)
+
+		go handleIO(&currentConn, connections)
+	})
+
+	fmt.Println("Server listening at :8080")
+	http.ListenAndServe(":8080", nil)
+}
+
 func handleIO(currentConn *WebsocketConnection, connections []*WebsocketConnection) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -44,6 +64,7 @@ func handleIO(currentConn *WebsocketConnection, connections []*WebsocketConnecti
 		err := currentConn.ReadJSON(&payload)
 
 		if err != nil {
+			// Immediately leave if the json received contains error
 			if strings.Contains(err.Error(), "websocket: close") {
 				broadcastMessage(currentConn, MESSAGE_LEAVE, "")
 				ejectConnection(currentConn)
@@ -75,22 +96,4 @@ func ejectConnection(currentConn *WebsocketConnection) {
 	connections = filter(connections, func(conn *WebsocketConnection) bool {
 		return currentConn != conn
 	})
-}
-
-func main() {
-	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-		currentGorillaConn, err := websocket.Upgrade(w, r, w.Header(), 1024, 1024)
-		if err != nil {
-			http.Error(w, "Could not open websocket connection", http.StatusBadRequest)
-		}
-
-		username := r.URL.Query().Get("username")
-		currentConn := WebsocketConnection{Conn: currentGorillaConn, Username: username}
-		connections = append(connections, &currentConn)
-
-		go handleIO(&currentConn, connections)
-	})
-
-	fmt.Println("Server listening at :8080")
-	http.ListenAndServe(":8080", nil)
 }
